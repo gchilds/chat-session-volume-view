@@ -15,6 +15,7 @@
 @interface ViewController ()
 
 @property (nonatomic) MPVolumeView *volumeView;
+@property (weak, nonatomic) IBOutlet UIView *container;
 
 @end
 
@@ -24,7 +25,7 @@
 	[super viewDidLoad];
 	
 	self.volumeView = [[MPVolumeView alloc] init];
-	[self.view addSubview:self.volumeView];
+	//[self.container addSubview:self.volumeView];
 	
 	// Make sure the session on this thread matches.
 	AVAudioSession *audioSession = [AVAudioSession sharedInstance];
@@ -35,7 +36,7 @@
 	// If I set the mode to AVAudioSessionModeVoiceChat the voice processing (primarily the AEC) fixes the feeback loop,
 	// but then the MPVolumeView no longers works.  (It no longer adjusts the system volume.
 	//Question: How can I have BOTH the voice processing AND the MPVolumeView adjust the system volume?
-	if(true)
+	if(false)
 		[audioSession setMode:AVAudioSessionModeDefault error:nil];
 	else
 		[audioSession setMode:AVAudioSessionModeVoiceChat error:nil];
@@ -44,8 +45,8 @@
 	[audioSession setActive:YES error:nil];
 }
 
-- (void)viewWillLayoutSubviews {
-	self.volumeView.frame = self.view.frame;
+- (void)viewDidLayoutSubviews {
+	self.volumeView.frame = self.container.frame;
 }
 
 @end
